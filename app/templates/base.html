@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EstateLink Tenancy Management{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>EstateLink Tenancy Management System</h1>
+    </header>
+
+    <nav class="nav">
+        <ul>
+            <li><a href="/" class="{% if request.url.path == '/' %}active{% endif %}">Dashboard</a></li>
+            <li><a href="/contracts" class="{% if request.url.path == '/contracts' %}active{% endif %}">All Contracts</a></li>
+            <li><a href="/expiring" class="{% if request.url.path == '/expiring' %}active{% endif %}">Expiring Contracts</a></li>
+            <li><a href="/payments/upcoming" class="{% if request.url.path == '/payments/upcoming' %}active{% endif %}">Upcoming Payments</a></li>
+            <li><a href="/payments/overdue" class="{% if request.url.path == '/payments/overdue' %}active{% endif %}">Overdue Payments</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

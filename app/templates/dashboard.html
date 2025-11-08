@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - EstateLink{% endblock %}
+
+{% block content %}
+<h2>Dashboard</h2>
+
+<div class="stats-grid">
+    <div class="stat-card primary">
+        <h3>Total Contracts</h3>
+        <div class="number">{{ total_contracts }}</div>
+        <p><a href="/contracts">View all contracts →</a></p>
+    </div>
+
+    <div class="stat-card warning">
+        <h3>Expiring Soon</h3>
+        <div class="number">{{ expiring_contracts }}</div>
+        <p><a href="/expiring">View expiring →</a></p>
+    </div>
+
+    <div class="stat-card success">
+        <h3>Upcoming Payments</h3>
+        <div class="number">{{ upcoming_payments }}</div>
+        <p><a href="/payments/upcoming">View upcoming →</a></p>
+    </div>
+
+    <div class="stat-card danger">
+        <h3>Overdue Payments</h3>
+        <div class="number">{{ overdue_payments }}</div>
+        <p><a href="/payments/overdue">View overdue →</a></p>
+    </div>
+</div>
+
+<div class="content-card">
+    <h2>System Overview</h2>
+    <p>Welcome to the EstateLink Tenancy Management System. Use the navigation above to manage contracts and monitor payments.</p>
+
+    {% if overdue_payments > 0 %}
+    <div class="alert alert-danger">
+        <strong>Attention!</strong> You have {{ overdue_payments }} overdue payment(s) that require immediate attention.
+    </div>
+    {% endif %}
+
+    {% if expiring_contracts > 0 %}
+    <div class="alert alert-warning">
+        <strong>Notice:</strong> {{ expiring_contracts }} contract(s) are expiring within 100 days.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

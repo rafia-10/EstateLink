@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Contract #{{ contract.contract_id }} - EstateLink{% endblock %}
+
+{% block content %}
+<div class="content-card">
+    <h2>Contract #{{ contract.contract_id }} - {{ contract.property_name }}</h2>
+
+    <div class="details-grid">
+        <div class="detail-item">
+            <label>Property Name</label>
+            <div class="value">{{ contract.property_name }}</div>
+        </div>
+        <div class="detail-item">
+            <label>Location</label>
+            <div class="value">{{ contract.location }}</div>
+        </div>
+        <div class="detail-item">
+            <label>Start Date</label>
+            <div class="value">{{ contract.start_date }}</div>
+        </div>
+        <div class="detail-item">
+            <label>Expiry Date</label>
+            <div class="value">{{ contract.expiry_date }}</div>
+        </div>
+        <div class="detail-item">
+            <label>Annual Rent</label>
+            <div class="value">AED {{ "{:,.2f}".format(contract.annual_rent) }}</div>
+        </div>
+        <div class="detail-item">
+            <label>Payment Method</label>
+            <div class="value">{{ contract.payment_method }}</div>
+        </div>
+        <div class="detail-item">
+            <label>Number of Checks</label>
+            <div class="value">{{ contract.num_checks }}</div>
+        </div>
+    </div>
+
+    <h3 style="margin-top: 2rem;">Tenant Information</h3>
+    <div class="details-grid">
+        <div class="detail-item">
+            <label>Name</label>
+            <div class="value">{{ contract.tenant_name }}</div>
+        </div>
+        <div class="detail-item">
+            <label>Email</label>
+            <div class="value">{{ contract.tenant_email }}</div>
+        </div>
+        <div class="detail-item">
+            <label>Phone</label>
+            <div class="value">{{ contract.tenant_phone }}</div>
+        </div>
+    </div>
+
+    <h3 style="margin-top: 2rem;">Agent Information</h3>
+    <div class="details-grid">
+        <div class="detail-item">
+            <label>Name</label>
+            <div class="value">{{ contract.agent_name }}</div>
+        </div>
+        <div class="detail-item">
+            <label>Email</label>
+            <div class="value">{{ contract.agent_email }}</div>
+        </div>
+    </div>
+
+    <h3 style="margin-top: 2rem;">Payment Checks ({{ contract.total_checks_count }})</h3>
+
+    {% if contract.checks %}
+    <table>
+        <thead>
+            <tr>
+                <th>Check Number</th>
+                <th>Due Date</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for check in contract.checks %}
+            <tr>
+                <td>{{ check.check_no }}</td>
+                <td>{{ check.check_date }}</td>
+                <td>AED {{ "{:,.2f}".format(check.amount) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>No payment checks generated for this contract.</p>
+    </div>
+    {% endif %}
+
+    <div style="margin-top: 2rem;">
+        <a href="/contracts" class="btn btn-primary">← Back to Contracts</a>
+    </div>
+</div>
+{% endblock %}

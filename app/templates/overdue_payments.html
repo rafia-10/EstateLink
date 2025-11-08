@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Overdue Payments - EstateLink{% endblock %}
+
+{% block content %}
+<div class="content-card">
+    <h2>Overdue Payments - {{ checks|length }}</h2>
+
+    {% if checks %}
+    <div class="alert alert-danger">
+        <strong>Urgent!</strong> These payments are overdue and require immediate attention.
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Check Number</th>
+                <th>Property</th>
+                <th>Location</th>
+                <th>Tenant</th>
+                <th>Due Date</th>
+                <th>Days Overdue</th>
+                <th>Amount</th>
+                <th>Agent</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for check in checks %}
+            <tr>
+                <td>{{ check.check_no }}</td>
+                <td>{{ check.property_name }}</td>
+                <td>{{ check.location }}</td>
+                <td>
+                    <strong>{{ check.tenant_name }}</strong><br>
+                    <small>{{ check.tenant_email }}</small><br>
+                    <small>{{ check.tenant_phone }}</small>
+                </td>
+                <td>{{ check.check_date }}</td>
+                <td><span class="badge badge-danger">{{ check.days_overdue }} days</span></td>
+                <td>AED {{ "{:,.2f}".format(check.amount) }}</td>
+                <td>
+                    <strong>{{ check.agent_name }}</strong><br>
+                    <small>{{ check.agent_email }}</small>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>No overdue payments. Great job!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

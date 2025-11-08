@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Expiring Contracts - EstateLink{% endblock %}
+
+{% block content %}
+<div class="content-card">
+    <h2>Contracts Expiring Within 100 Days ({{ contracts|length }})</h2>
+
+    {% if contracts %}
+    <div class="alert alert-warning">
+        <strong>Notice:</strong> These contracts are expiring soon. Please follow up with tenants and agents for renewal.
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Property</th>
+                <th>Location</th>
+                <th>Tenant</th>
+                <th>Expiry Date</th>
+                <th>Days Until Expiry</th>
+                <th>Annual Rent</th>
+                <th>Agent</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contract in contracts %}
+            <tr>
+                <td>{{ contract.contract_id }}</td>
+                <td>{{ contract.property_name }}</td>
+                <td>{{ contract.location }}</td>
+                <td>
+                    <strong>{{ contract.tenant_name }}</strong><br>
+                    <small>{{ contract.tenant_email }}</small><br>
+                    <small>{{ contract.tenant_phone }}</small>
+                </td>
+                <td>{{ contract.expiry_date }}</td>
+                <td>
+                    {% if contract.days_until_expiry <= 30 %}
+                    <span class="badge badge-danger">{{ contract.days_until_expiry }} days</span>
+                    {% elif contract.days_until_expiry <= 60 %}
+                    <span class="badge badge-warning">{{ contract.days_until_expiry }} days</span>
+                    {% else %}
+                    <span class="badge badge-info">{{ contract.days_until_expiry }} days</span>
+                    {% endif %}
+                </td>
+                <td>AED {{ "{:,.2f}".format(contract.annual_rent) }}</td>
+                <td>
+                    <strong>{{ contract.agent_name }}</strong><br>
+                    <small>{{ contract.agent_email }}</small>
+                </td>
+                <td><a href="/contracts/{{ contract.contract_id }}" class="btn btn-primary">View</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>No contracts expiring within 100 days.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}All Contracts - EstateLink{% endblock %}
+
+{% block content %}
+<div class="content-card">
+    <h2>All Contracts ({{ contracts|length }})</h2>
+
+    {% if contracts %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Property</th>
+                <th>Location</th>
+                <th>Tenant</th>
+                <th>Start Date</th>
+                <th>Expiry Date</th>
+                <th>Annual Rent</th>
+                <th>Payment Method</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contract in contracts %}
+            <tr>
+                <td>{{ contract.contract_id }}</td>
+                <td>{{ contract.property_name }}</td>
+                <td>{{ contract.location }}</td>
+                <td>
+                    <strong>{{ contract.tenant_name }}</strong><br>
+                    <small>{{ contract.tenant_email }}</small><br>
+                    <small>{{ contract.tenant_phone }}</small>
+                </td>
+                <td>{{ contract.start_date }}</td>
+                <td>{{ contract.expiry_date }}</td>
+                <td>AED {{ "{:,.2f}".format(contract.annual_rent) }}</td>
+                <td><span class="badge badge-info">{{ contract.payment_method }}</span></td>
+                <td><a href="/contracts/{{ contract.contract_id }}" class="btn btn-primary">View Details</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>No contracts found.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

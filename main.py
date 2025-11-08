@@ -12,6 +12,10 @@ from datetime import date, datetime
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Import the estate agent functions
 from tenancy_agent.tenancy_agent import (
@@ -30,13 +34,13 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Database configuration
+# Database configuration - loads from .env file with proper quote stripping
 DB_CONFIG = {
     "dbname": os.getenv("DB_NAME", "estate_db"),
     "user": os.getenv("DB_USER", "postgres"),
-    "password": os.getenv("DB_PASSWORD", "postgres"),
-    "host": os.getenv("DB_HOST", "localhost"),
-    "port": int(os.getenv("DB_PORT", 5432))
+    "password": os.getenv("DB_PASSWORD", "postgres").strip('"'),
+    "host": os.getenv("DB_HOST", "localhost").strip('"'),
+    "port": int(os.getenv("DB_PORT", "5432"))
 }
 
 
@@ -451,7 +455,7 @@ def get_statistics():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
-        "estate_api:app",
+        "main:app",
         host="0.0.0.0",
         port=8000,
         reload=True
